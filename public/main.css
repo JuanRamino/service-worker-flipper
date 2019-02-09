@@ -1,0 +1,18 @@
+.main{
+  width: 280px;
+  margin: auto;
+  border: 1px solid #000;
+  text-align: center;
+}
+.main p {
+  padding: 3px;
+}
+.hide {
+  display: none;
+}
+.update {
+  margin-bottom: 5px;
+}
+.update-sw {
+  margin-left: 5px;
+}
