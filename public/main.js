@@ -84,10 +84,14 @@ IndexController.prototype._showVersion = function(version) {
     fetch('/update-version')
       .then(() => {
         if (indexController._regSw) {
-          indexController._regSw.update();
-        } else {
-          window.location.reload();
+           return indexController._regSw.update();
         }
+        return {};
+      })
+      .then((reg) => {
+          if (!reg.waiting) {
+            window.location.reload();
+          }
       })
       .catch((err) => console.log(err));
 
