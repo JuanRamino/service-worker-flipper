@@ -1,4 +1,4 @@
-var ___VERSION___ = 1;
+var ___VERSION___ = 9;
 
 function IndexController(container) {
   this._container = container;
@@ -8,13 +8,14 @@ function IndexController(container) {
 
 IndexController.prototype._registerServiceWorker = function() {
   if (!navigator.serviceWorker) return;
-
   var indexController = this;
   
   navigator.serviceWorker.register('./sw.js').then(function(reg) {
     if (!navigator.serviceWorker.controller) {
       return;
     }
+
+    indexController._regSw = reg;
 
     if (reg.waiting) {
       indexController._updateReady(reg.waiting);
@@ -68,6 +69,8 @@ IndexController.prototype._updateReady = function(worker) {
 };
 
 IndexController.prototype._showVersion = function(version) {
+  var indexController = this;
+
   var title = document.createElement('p');
   title.innerHTML = `VERSIONE <small>${version}</small><button class="update-sw">UPDATE SW</button>`;
   
@@ -76,8 +79,10 @@ IndexController.prototype._showVersion = function(version) {
     .appendChild(title);
 
   document.querySelector('.update-sw').addEventListener('click', function (event) {
+    event.target.setAttribute("disabled", "true")
+
     fetch('/update-version')
-      .then(() => window.location.reload())
+      .then(() => indexController._regSw.update())
       .catch((err) => console.log(err));
 
   }, false);
