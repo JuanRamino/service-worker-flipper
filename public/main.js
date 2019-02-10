@@ -1,4 +1,4 @@
-var ___VERSION___ = 9;
+var ___VERSION___ = 1;
 
 function IndexController(container) {
   this._container = container;
@@ -11,11 +11,11 @@ IndexController.prototype._registerServiceWorker = function() {
   var indexController = this;
   
   navigator.serviceWorker.register('./sw.js').then(function(reg) {
+    indexController._regSw = reg;
+
     if (!navigator.serviceWorker.controller) {
       return;
     }
-
-    indexController._regSw = reg;
 
     if (reg.waiting) {
       indexController._updateReady(reg.waiting);
@@ -82,7 +82,13 @@ IndexController.prototype._showVersion = function(version) {
     event.target.setAttribute("disabled", "true")
 
     fetch('/update-version')
-      .then(() => indexController._regSw.update())
+      .then(() => {
+        if (indexController._regSw) {
+          indexController._regSw.update();
+        } else {
+          window.location.reload();
+        }
+      })
       .catch((err) => console.log(err));
 
   }, false);

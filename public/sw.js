@@ -1,4 +1,4 @@
-var ___VERSION___ = 9;
+var ___VERSION___ = 1;
 
 var basicCacheName = 'service-worker-flipper';
 
