@@ -6,3 +6,7 @@ Pressing _update sw_ you will trigger an update on sw.js file, aftrer reloading 
 
 ### Start the app
 `npm start`
+
+### Online demo
+
+[https://service-worker-flipper.webabile.it](https://service-worker-flipper.webabile.it)
