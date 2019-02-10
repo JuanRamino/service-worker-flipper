@@ -84,12 +84,11 @@ IndexController.prototype._showVersion = function(version) {
     fetch('/update-version')
       .then(() => {
         if (navigator.serviceWorker.controller) {
-          indexController._regSw && indexController._regSw.update();
+          return indexController._regSw && indexController._regSw.update();
         } else {
           window.location.reload();
         }
       })
-      .catch((err) => console.log(err));
       .catch((err) => console.log(err));
 
   }, false);
